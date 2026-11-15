@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uttsah By Sachika — Digital Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header (Logo scrolls naturally with page) -->
+    <header class="top-nav">
+      <a href="#top" class="brand-mark" aria-label="Cafe Home">
+        <img id="cafe-logo" src="assets/logo/logo.png" alt="Uttsah By Sachika Logo" />
+      </a>
+    </header>
+
+    <main>
+      <!-- Main Menu View -->
+      <section id="menu-section" aria-label="Digital Food Menu">
+        <!-- Category Filter Controls -->
+        <div class="category-section sticky-categories">
+          <div class="category-header-row">
+            <h2 class="category-label">Choose from categories</h2>
+          </div>
+          <div id="category-pills" class="category-pills" role="tablist" aria-label="Food Categories"></div>
+        </div>
+
+        <!-- Dynamic Food Grid -->
+        <div class="section-status-bar">
+          <h2 id="active-section-title" class="section-heading">All Items</h2>
+          <span id="item-count-label" class="item-count-badge">0 items</span>
+        </div>
+
+        <div id="menu-grid" class="food-grid" aria-live="polite"></div>
+      </section>
+
+      <!-- Dedicated Wishlist Section -->
+      <section id="wishlist-section" hidden aria-labelledby="wishlist-heading">
+        <div class="wishlist-header">
+          <button type="button" id="back-to-menu-btn" class="back-btn">
+            ← Back to Menu
+          </button>
+          <h2 id="wishlist-heading" class="section-heading">Your Saved Wishlist</h2>
+        </div>
+
+        <div class="wishlist-summary-bar">
+          <div>
+            <span class="summary-label">Saved Items (<span id="wishlist-total-count">0 Items</span>)</span>
+            <span id="wishlist-total-price" class="summary-value">₹0</span>
+          </div>
+          <button type="button" id="clear-wishlist-btn" class="clear-wishlist-btn" hidden>
+            Clear All
+          </button>
+        </div>
+
+        <div id="wishlist-grid" class="food-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Digital Menu • Uttsah By Sachika • Prices in Indian Rupees (₹)</p>
+    </footer>
+  </div>
+
+  <!-- Food Detail Modal (Inspired by Reference UI Detail Screen) -->
+  <div id="item-detail-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modal-item-title">
+    <div class="modal-sheet">
+      <button type="button" id="modal-close-btn" class="modal-close-btn" aria-label="Close dish details">
+        ←
+      </button>
+
+      <div class="modal-plate-showcase">
+        <img id="modal-item-image" src="assets/food/default.svg" alt="" />
+      </div>
+
+      <div class="modal-meta-row">
+        <span id="modal-veg-badge" class="diet-indicator veg"><span class="diet-dot"></span></span>
+        <span id="modal-popular-badge" class="popular-badge" hidden>Bestseller</span>
+        <span id="modal-item-category" class="modal-category-text">Category</span>
+      </div>
+
+      <h2 id="modal-item-title" class="modal-title">Dish Name</h2>
+      <p id="modal-item-desc" class="modal-desc">Dish description</p>
+
+      <div class="modal-footer">
+        <div>
+          <span class="modal-price-label">Menu Price</span>
+          <span id="modal-item-price" class="modal-price-value">₹0</span>
+        </div>
+        <button type="button" id="modal-wishlist-btn" class="primary-pill-btn modal-cta">
+          ♡ Save to Wishlist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Draggable Pop-Notification Wishlist Button (Starts at Middle-Right) -->
+  <button
+    type="button"
+    id="open-wishlist-btn"
+    class="wishlist-nav-btn floating-wishlist-btn"
+    aria-label="Open saved wishlist (Drag to move)"
+    title="Drag to move • Click to view Wishlist"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+    <span id="wishlist-badge" class="wishlist-badge">0</span>
+  </button>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Modular Vanilla JS Scripts -->
+  <script src="js/menu-data.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,736 @@
+/* ==========================================================================
+   Digital Menu Stylesheet — Inspired by Modern Minimalist Food UI
+   Palette: Crisp White (#FFFFFF), Soft Mint Canvas (#E4F0EA),
+            Emerald Green (#189B5B), Deep Charcoal (#181C19), Alert Red (#E53935)
+   ========================================================================== */
+
+:root {
+  --bg-page: #E4F0EA;
+  --bg-surface: #FFFFFF;
+  --bg-card: #F6F8F7;
+  --primary-green: #189B5B;
+  --primary-green-hover: #137F4A;
+  --primary-green-soft: #E8F6EF;
+  --accent-red: #E53935;
+  --text-primary: #181C19;
+  --text-secondary: #68736D;
+  --text-muted: #939E98;
+  --border-light: #E2E8E5;
+  --shadow-shell: 0 20px 50px rgba(17, 38, 27, 0.08);
+  --shadow-card: 0 8px 24px rgba(17, 38, 27, 0.06);
+  --shadow-plate: 0 10px 20px rgba(17, 38, 27, 0.14);
+  --radius-xl: 32px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --transition: 0.22s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: clip;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  body {
+    padding: 24px 16px;
+  }
+}
+
+/* Main App Container Shell */
+.app-shell {
+  max-width: 1140px;
+  margin: 0 auto;
+  background-color: var(--bg-surface);
+  min-height: 100vh;
+  padding: 0 18px 48px;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    min-height: calc(100vh - 48px);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-shell);
+    padding: 0 36px 56px;
+  }
+}
+
+/* ==========================================================================
+   Top Navigation (Logo scrolls away naturally)
+   ========================================================================== */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 0 12px;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .top-nav {
+    padding: 24px 0 14px;
+  }
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-mark img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+/* Floating Draggable Pop-Notification Wishlist Button (Starts Middle-Right) */
+.floating-wishlist-btn {
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  z-index: 950;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  box-shadow: 0 12px 28px rgba(24, 155, 91, 0.38), 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-wishlist-btn:hover {
+  background-color: var(--primary-green-hover);
+  box-shadow: 0 14px 32px rgba(24, 155, 91, 0.48), 0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.floating-wishlist-btn.dragging {
+  cursor: grabbing;
+  transform: scale(1.07);
+  box-shadow: 0 18px 36px rgba(24, 155, 91, 0.52);
+}
+
+.floating-wishlist-btn.pop-animate {
+  animation: popNotify 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popNotify {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.22); }
+  70% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+.wishlist-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  border: 2px solid #FFFFFF;
+  background-color: var(--text-primary);
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.wishlist-badge.has-items {
+  background-color: var(--accent-red);
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   Sticky Category Filter Pills (Remains fixed at top on scroll)
+   ========================================================================== */
+.category-section.sticky-categories {
+  position: sticky;
+  top: 0;
+  z-index: 880;
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin: 0 -18px 24px;
+  padding: 12px 18px 10px;
+  border-bottom: 1px solid rgba(226, 232, 229, 0.6);
+}
+
+@media (min-width: 768px) {
+  .category-section.sticky-categories {
+    margin: 0 -36px 28px;
+    padding: 14px 36px 12px;
+  }
+}
+
+.category-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.category-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.category-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pill {
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.category-pill:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+.category-pill.active {
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(24, 155, 91, 0.25);
+}
+
+/* ==========================================================================
+   Section Header & Responsive Food Grid
+   ========================================================================== */
+.section-status-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.item-count-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .food-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+/* ==========================================================================
+   Food Card (Circular Overhanging Plate Image + Light Card + Green Pill CTA)
+   ========================================================================== */
+.food-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 16px 14px;
+  margin-left: 14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.food-card:hover {
+  transform: translateY(-3px);
+  background-color: var(--bg-surface);
+  border-color: var(--border-light);
+  box-shadow: var(--shadow-card);
+}
+
+.food-card-plate {
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+  border-radius: 50%;
+  margin-left: -28px;
+  margin-right: 14px;
+  background-color: #FFFFFF;
+  box-shadow: var(--shadow-plate);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #FFFFFF;
+}
+
+.food-card-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.food-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.food-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+/* FSSAI Standard Veg / Non-Veg Square Dot Indicator */
+.diet-indicator {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 1.5px solid var(--primary-green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.diet-indicator .diet-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--primary-green);
+}
+
+.diet-indicator.non-veg {
+  border-color: var(--accent-red);
+}
+
+.diet-indicator.non-veg .diet-dot {
+  background-color: var(--accent-red);
+}
+
+.popular-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background-color: #FFF3CD;
+  color: #8A5A00;
+}
+
+.food-card-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.food-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.4em;
+}
+
+.food-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.food-card-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.wishlist-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 15px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.wishlist-pill-btn:hover {
+  background-color: var(--primary-green-hover);
+}
+
+.wishlist-pill-btn.saved {
+  background-color: var(--primary-green-soft);
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+}
+
+/* ==========================================================================
+   Dedicated Wishlist Section
+   ========================================================================== */
+.wishlist-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.back-btn:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+.wishlist-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-card);
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.summary-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.summary-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.clear-wishlist-btn {
+  background: transparent;
+  border: 1.5px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clear-wishlist-btn:hover {
+  background-color: var(--accent-red);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Empty State Card
+   ========================================================================== */
+.empty-state-card {
+  grid-column: 1 / -1;
+  text-align: center;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.empty-state-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.empty-state-card p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+
+.primary-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background-color: var(--primary-green);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.primary-pill-btn:hover {
+  background-color: var(--primary-green-hover);
+}
+
+/* ==========================================================================
+   Item Detail Modal (Mirrors Second Screen in Reference UI)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 38, 27, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-sheet {
+  background-color: var(--bg-surface);
+  width: 100%;
+  max-width: 460px;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: modalSlideUp 0.25s ease-out;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-plate-showcase {
+  width: 210px;
+  height: 210px;
+  margin: 4px auto 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 16px 36px rgba(17, 38, 27, 0.16);
+  overflow: hidden;
+  border: 4px solid #FFFFFF;
+}
+
+.modal-plate-showcase img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.modal-category-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+.modal-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.modal-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-light);
+}
+
+.modal-price-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.modal-price-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.modal-cta.saved {
+  background-color: var(--primary-green-soft);
+  color: var(--primary-green);
+  border: 1.5px solid var(--primary-green);
+}
+
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast-message {
+  background-color: var(--text-primary);
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.22s ease;
+}
+
+.toast-message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer */
+.app-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
